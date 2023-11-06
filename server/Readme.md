@@ -1,4 +1,3 @@
-
 # Honey Server Application
 
 The Honey Server Application is a simple Python-based server for managing honey types and orders. This README provides an overview of how to use the Command-Line Interface (CLI) and describes the functions available in both `main.py` and `database.py`.
@@ -44,16 +43,19 @@ To get started, follow these steps:
 The Honey Server Application provides a Command-Line Interface (CLI) for managing honey types and orders. The available commands are:
 
 - **add:** Add a new honey type to the database.
+
   ```bash
   python main.py add "Honey Name" "Honey Description" 10.5 20 "https://example.com/honey.jpg"
   ```
 
 - **list:** List all honey types in the database.
+
   ```bash
   python main.py list
   ```
 
 - **search:** Search for a honey type by name.
+
   ```bash
   python main.py search "Honey Name"
   ```
@@ -62,6 +64,59 @@ The Honey Server Application provides a Command-Line Interface (CLI) for managin
   ```bash
   python main.py order user_id honey_type_id quantity
   ```
+  You can use the CLI commands to perform various actions on honey types. Here's how to use each command:
+
+1. **Add a Honey Type:**
+
+   - To add a honey type, use the `add` command with the following syntax:
+     ```
+     python main.py add "Honey Name" "Honey Description" Rate Amount "Image URL"
+     ```
+
+   Replace `"Honey Name"`, `"Honey Description"`, `Rate`, `Amount`, and `"Image URL"` with the actual values you want to add.
+
+2. **List All Honey Types:**
+
+   - To list all honey types, use the `list` command:
+     ```
+     python main.py list
+     ```
+
+3. **Search for a Honey Type:**
+
+   - To search for a honey type by name, use the `search` command:
+     ```
+     python main.py search "Honey Name"
+     ```
+
+   Replace `"Honey Name"` with the name of the honey type you want to search for.
+
+4. **Create an Order:**
+
+   - To create a new order, use the `order` command with the following syntax:
+     ```
+     python main.py order User_ID Honey_Type_ID Quantity
+     ```
+
+   Replace `User_ID`, `Honey_Type_ID`, and `Quantity` with the actual values for the order.
+
+5. **Remove a Honey Type:**
+
+   - To remove a honey type, use the `remove` command with the following syntax:
+     ```
+     python main.py remove Honey_Type_ID
+     ```
+
+   Replace `Honey_Type_ID` with the ID of the honey type you want to remove.
+
+6. **Update a Honey Type:**
+
+   - To update a honey type, use the `update` command with the following syntax:
+     ```
+     python main.py update Honey_Type_ID "New Honey Name" "New Honey Description" New_Rate New_Amount "New Image URL"
+     ```
+
+   Replace `Honey_Type_ID`, `"New Honey Name"`, `"New Honey Description"`, `New_Rate`, `New_Amount`, and `"New Image URL"` with the actual values for the update.
 
 ## main.py Functions
 

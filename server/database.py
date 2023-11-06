@@ -50,6 +50,7 @@ def initialize_database():
         ("Sage Honey", "https://beeswax-theme.myshopify.com/cdn/shop/products/shop-04_5eaa9871-4e1f-40ac-8ec4-1fb1ff459abf_600x.png?v=1643975001", "Herbaceous and earthy, known for its unique and strong taste.", 4.9, 280)
     ]
 
+
     cursor.executemany("INSERT INTO honey_types (name, image_url, description, rate, amount) VALUES (?, ?, ?, ?, ?)", honey_types_data)
 
     connection.commit()
@@ -86,5 +87,21 @@ def create_order(user_id, honey_type_id, quantity):
     connection = sqlite3.connect('db.sqlite')
     cursor = connection.cursor()
     cursor.execute("INSERT INTO orders (user_id, honey_type_id, quantity) VALUES (?, ?, ?)", (user_id, honey_type_id, quantity))
+    connection.commit()
+    connection.close()
+
+# Function to remove a honey type
+def remove_honey_type(honey_type_id):
+    connection = sqlite3.connect('db.sqlite')
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM honey_types WHERE id=?", (honey_type_id,))
+    connection.commit()
+    connection.close()
+
+# Function to update a honey type
+def update_honey_type(honey_type_id, name, description, rate, amount, image_url):
+    connection = sqlite3.connect('db.sqlite')
+    cursor = connection.cursor()
+    cursor.execute("UPDATE honey_types SET name=?, description=?, rate=?, amount=?, image_url=? WHERE id=?", (name, description, rate, amount, image_url, honey_type_id))
     connection.commit()
     connection.close()

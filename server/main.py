@@ -3,7 +3,7 @@ import http.server
 import socketserver
 import json
 import bcrypt
-from database import initialize_database, create_user, find_user_by_email, get_all_honey_types, create_order
+from database import initialize_database, create_user, find_user_by_email, get_all_honey_types, create_order, remove_honey_type, update_honey_type
 
 # Create a new argparse parser
 parser = argparse.ArgumentParser(description="Manage honey types")
@@ -31,6 +31,19 @@ order_parser = subparsers.add_parser("order", help="Create a new order")
 order_parser.add_argument("user_id", type=int, help="User ID for the order")
 order_parser.add_argument("honey_type_id", type=int, help="Honey Type ID for the order")
 order_parser.add_argument("quantity", type=int, help="Quantity of honey to order")
+
+# New subparser for "remove" command
+remove_parser = subparsers.add_parser("remove", help="Remove a honey type")
+remove_parser.add_argument("honey_type_id", type=int, help="ID of the honey type to remove")
+
+# New subparser for "update" command
+update_parser = subparsers.add_parser("update", help="Update a honey type")
+update_parser.add_argument("honey_type_id", type=int, help="ID of the honey type to update")
+update_parser.add_argument("name", type=str, help="New name for the honey type")
+update_parser.add_argument("description", type=str, help="New description for the honey type")
+update_parser.add_argument("rate", type=float, help="New rate for the honey type")
+update_parser.add_argument("amount", type=int, help="New amount for the honey type")
+update_parser.add_argument("image_url", type=str, help="New image URL for the honey type")
 
 # Initialize the database
 initialize_database()
@@ -83,8 +96,6 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"message": "User with this email already exists"}).encode('utf-8'))
                 return
 
-
-
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             create_user(username, email, hashed_password)
 
@@ -135,6 +146,22 @@ if __name__ == '__main__':
     elif args.command == "search":
         name = args.name
         print(f"Searching for honey type: {name}")
+
+    elif args.command == "remove":
+        honey_type_id = args.honey_type_id
+        remove_honey_type(honey_type_id)
+        print(f"Removed honey type with ID: {honey_type_id}")
+
+    elif args.command == "update":
+        honey_type_id = args.honey_type_id
+        new_name = args.name
+        new_description = args.description
+        new_rate = args.rate
+        new_amount = args.amount
+        new_image_url = args.image_url
+
+        update_honey_type(honey_type_id, new_name, new_description, new_rate, new_amount, new_image_url)
+        print(f"Updated honey type with ID: {honey_type_id}")
 
     with socketserver.TCPServer(("", 80), CustomHandler) as httpd:
         print("Serving at port 80")
